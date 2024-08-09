@@ -14,6 +14,7 @@ const MessageSchema = z.object({
 
 // Endpoint to check server status
 app.get('/status', (c) => {
+  console.log(" here from status endpoint");
   return c.text('Server is up and running', 200);
 });
 
@@ -21,33 +22,28 @@ app.get('/', (c) => {
   return c.text('This is the backend for pondyvibes', 200);
 });
 
-// Endpoint to store admin credentials
-app.post('/store_admin', async (c) => {
-  try {
-    const body = await c.req.json();
-    const { username, password } = body;
-
-    const parsedData = AdminSchema.safeParse({ username, password });
-
-    if (!parsedData.success) {
-      return c.text('Invalid request body', 400);
-    }
-
-    await c.env.USERS_KV.put('username', username); // Store username
-    await c.env.USERS_KV.put('password', password); // Store password
-    return c.json({
-      success: true,
-      message: 'Admin credentials stored successfully',
-    });
-  } catch (error) {
-    console.error(error);
-    return c.text('Internal server error', 500);
-  }
-});
-
 // Endpoint to store content
 app.post('/store_content', async (c) => {
   try {
+    // Retrieve username and password from headers
+    const username = c.req.header('username');
+    const password = c.req.header('password');
+
+    // Check for missing username or password
+    if (!username || !password) {
+      return c.text('Missing username or password', 400);
+    }
+
+    // Retrieve stored admin credentials from KV
+    const storedUsername = await c.env.USERS_KV.get('username');
+    const storedPassword = await c.env.USERS_KV.get('password');
+
+    // Check if the provided credentials match the stored credentials
+    if (username !== storedUsername || password !== storedPassword) {
+      return c.text('Invalid username or password', 403);
+    }
+
+    // Parse and validate content from the request body
     const body = await c.req.json();
     const { content } = body;
 
@@ -57,7 +53,9 @@ app.post('/store_content', async (c) => {
       return c.text('Invalid request body', 400);
     }
 
-    await c.env.CONTENT_KV.put('message', content); // Store content
+    // Store content in KV namespace
+    await c.env.CONTENT_KV.put('message', content);
+
     return c.json({
       success: true,
       message: 'Content stored successfully',
@@ -93,8 +91,9 @@ app.get('/get_content', async (c) => {
 // Endpoint to login and verify admin credentials
 app.get('/login', async (c) => {
   try {
-    const username = c.req.headers.get('username');
-    const password = c.req.headers.get('password');
+    const username = c.req.header('username');
+    const password = c.req.header('password');
+    // console.log(username,password);
 
     if (!username || !password) {
       return c.text('Missing username or password', 400);
@@ -116,7 +115,7 @@ app.get('/login', async (c) => {
     }
   } catch (error) {
     console.error(error);
-    return c.text('Internal server error', 500);
+    return c.text(error,500);
   }
 });
 
