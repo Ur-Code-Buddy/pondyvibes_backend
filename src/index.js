@@ -17,6 +17,10 @@ app.get('/status', (c) => {
   return c.text('Server is up and running', 200);
 });
 
+app.get('/', (c) => {
+  return c.text('This is the backend for pondyvibes', 200);
+});
+
 // Endpoint to store admin credentials
 app.post('/store_admin', async (c) => {
   try {
