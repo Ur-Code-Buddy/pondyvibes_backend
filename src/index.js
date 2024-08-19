@@ -1,7 +1,15 @@
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { z } from 'zod';
 
 const app = new Hono();
+
+// Apply CORS middleware globally
+app.use('*', cors({
+  origin: '*', // Replace '*' with a specific origin if needed
+  methods: ['GET', 'POST', 'OPTIONS'],
+  headers: ['Content-Type', 'Authorization'],
+}));
 
 const AdminSchema = z.object({
   username: z.string(),
@@ -115,7 +123,7 @@ app.get('/login', async (c) => {
     }
   } catch (error) {
     console.error(error);
-    return c.text(error,500);
+    return c.text(error, 500);
   }
 });
 
