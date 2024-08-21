@@ -252,7 +252,10 @@ app.post('/send_message', async (c) => {
     // Send the email using Resend
     const { data, error } = await resend.emails.send({
       from: 'Customer Info <info@pondyretreats.in>',
-      to: ['05baivab@gmail.com'],
+      to: ['05baivab@gmail.com',
+        "jenasamarpan@gmail.com",
+        "baivab@yopmail.com"
+      ],
       subject: 'Client Request',
       html: message,
     });
