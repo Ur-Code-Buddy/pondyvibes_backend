@@ -247,7 +247,7 @@ app.post('/send_message', async (c) => {
 
 
     // Initialize Resend
-    const resend = new Resend('re_jhHk6Ar7_DxmMo34uAt1z2avpqbFzx6YJ');
+    const resend = new Resend('re_bkr8VJpY_CDzX9C1MyV8ycZSZmCEVA2f6');
 
     // Send the email using Resend
     const { data, error } = await resend.emails.send({
