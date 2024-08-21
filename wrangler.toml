@@ -1,4 +1,4 @@
-name = "pondyvibes"
+name = "pondyretreats"
 main = "src/index.js"
 compatibility_date = "2024-08-06"
 compatibility_flags = ["nodejs_compat"]
@@ -6,8 +6,8 @@ compatibility_flags = ["nodejs_compat"]
 # Bind your KV namespaces
 [[kv_namespaces]]
 binding = "USERS_KV"
-id = "9d3617642a284c1cbf0fae61f8ede3db" # Replace with your actual KV namespace ID
+id = "e3fe3d9065cd4056b586d06cb5392746" # Replace with your actual KV namespace ID
 
 [[kv_namespaces]]
 binding = "CONTENT_KV"
-id = "0285c092a6514b51bbed6c8e12edd666" # Replace with your actual KV namespace ID
+id = "19b0fd221d1b48a1a2c374beaf47cc14" # Replace with your actual KV namespace ID

@@ -251,9 +251,9 @@ app.post('/send_message', async (c) => {
 
     // Send the email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Customer Info <info@baivabprojects.site>',
+      from: 'Customer Info <info@pondyretreats.in>',
       to: ['05baivab@gmail.com'],
-      subject: 'Hello from PondyVibes',
+      subject: 'Client Request',
       html: message,
     });
 
